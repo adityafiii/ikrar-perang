@@ -1,0 +1,1678 @@
+/* ==========================================================================
+   DEPARTURE TO THE FRONT LINE - CINEMATIC WEDDING THEME
+   Aditya Firmansyah & Salsa Nabila Ramadhani
+   ========================================================================== */
+
+:root {
+  --gold-primary: #e5a93b;
+  --gold-light: #f7d283;
+  --gold-dark: #a67420;
+  --gold-glow: rgba(229, 169, 59, 0.4);
+  --ember-orange: #ff5722;
+  --ember-glow: rgba(255, 87, 34, 0.35);
+  
+  --bg-deep: #08080a;
+  --bg-surface: #101014;
+  --bg-card: rgba(18, 18, 24, 0.94);
+  --bg-card-border: rgba(229, 169, 59, 0.3);
+  --bg-input: #15151c;
+  
+  --text-main: #f0ede6;
+  --text-muted: #9f9b93;
+  --text-dim: #6e6b65;
+  
+  --font-serif: 'Cinzel', Georgia, serif;
+  --font-display: 'Cinzel Decorative', 'Cinzel', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, sans-serif;
+  --font-script: 'Great Vibes', cursive;
+  --font-arabic: 'Amiri', 'Traditional Arabic', serif;
+  
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+  
+  --shadow-card: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 30px rgba(229, 169, 59, 0.08);
+  --shadow-glow: 0 0 25px var(--gold-glow);
+}
+
+/* Reset & Base Setup */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button, input, textarea, select, a, .custom-select-trigger {
+  touch-action: manipulation;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  background-color: var(--bg-deep);
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-deep);
+  color: var(--text-main);
+  line-height: 1.75;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+body.locked {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* Floating Embers Canvas */
+#embersCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Cinematic Letterbox Bars */
+.cinematic-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #08080a 0%, var(--gold-dark) 50%, #08080a 100%);
+  z-index: 9998;
+  opacity: 0.8;
+}
+
+.top-bar { top: 0; }
+.bottom-bar { bottom: 0; }
+
+/* Main Wrapper (Mobile First Cinema Container) */
+.main-wrapper {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+  min-height: 100vh;
+  position: relative;
+  z-index: 10;
+  background: radial-gradient(ellipse at 50% 0%, rgba(35, 20, 15, 0.45) 0%, rgba(8, 8, 10, 0.98) 75%);
+  box-shadow: 0 0 80px rgba(0, 0, 0, 0.95);
+}
+
+/* ==========================================================================
+   COVER / GATE: GERBANG SAKSI SUMPAH
+   ========================================================================== */
+.cover-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 50% 30%, #171311 0%, #08080a 80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(20px, env(safe-area-inset-top)) max(18px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(18px, env(safe-area-inset-left));
+  transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), visibility 1s;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.cover-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.cover-card {
+  width: 100%;
+  max-width: 470px;
+  margin: auto;
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  border: 1.5px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 42px 26px 36px;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  overflow: visible;
+  animation: dramaticFadeIn 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cover-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), var(--ember-orange), var(--gold-primary), transparent);
+}
+
+.ember-glow-accent {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 100px;
+  background: radial-gradient(ellipse, var(--ember-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.cover-emblem {
+  color: var(--gold-primary);
+  margin-bottom: 14px;
+  display: inline-flex;
+  filter: drop-shadow(0 0 12px var(--gold-glow));
+  animation: breathePulse 3s ease-in-out infinite;
+}
+
+.cover-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  background: rgba(229, 169, 59, 0.12);
+  border: 1px solid rgba(229, 169, 59, 0.3);
+  border-radius: var(--radius-full);
+  margin-bottom: 16px;
+  font-weight: 700;
+}
+
+.cover-title {
+  font-family: var(--font-serif);
+  font-size: 1.28rem;
+  font-weight: 800;
+  letter-spacing: 3.5px;
+  color: #ffffff;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.cover-couple {
+  font-family: var(--font-display);
+  font-size: 2.3rem;
+  font-weight: 900;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--gold-light) 50%, var(--gold-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.25;
+  margin: 8px 0 16px;
+  filter: drop-shadow(0 0 20px rgba(229, 169, 59, 0.3));
+}
+
+.cover-desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+
+/* Guest Selector Dropdown (Dark Cinematic Runes) */
+.guest-selector-group {
+  margin: 22px 0 24px;
+  text-align: left;
+}
+
+.selector-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.custom-select-wrapper {
+  position: relative;
+  user-select: none;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--bg-input);
+  border: 1.5px solid rgba(229, 169, 59, 0.45);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.custom-select-trigger:hover,
+.custom-select-wrapper.open .custom-select-trigger {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 0 3px rgba(229, 169, 59, 0.2), inset 0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.trigger-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 8px;
+  font-weight: 600;
+}
+
+.trigger-arrow {
+  color: var(--gold-primary);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.custom-select-wrapper.open .trigger-arrow {
+  transform: rotate(180deg);
+}
+
+.custom-select-options {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: #121218;
+  border: 1.5px solid var(--gold-primary);
+  border-radius: var(--radius-md);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85), 0 0 25px rgba(229, 169, 59, 0.15);
+  max-height: 320px;
+  overflow-y: auto;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s ease;
+}
+
+/* Custom Gold Scrollbar */
+.custom-select-options::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-select-options::-webkit-scrollbar-track {
+  background: #0d0d12;
+}
+.custom-select-options::-webkit-scrollbar-thumb {
+  background: rgba(229, 169, 59, 0.45);
+  border-radius: 4px;
+}
+.custom-select-options::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-primary);
+}
+
+.custom-select-wrapper.open .custom-select-options {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.select-search-box {
+  position: sticky;
+  top: 0;
+  background: #14141c;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(229, 169, 59, 0.25);
+  z-index: 2;
+}
+
+.select-search-input {
+  width: 100%;
+  padding: 9px 12px;
+  background: #0b0b10;
+  border: 1px solid rgba(229, 169, 59, 0.3);
+  border-radius: var(--radius-sm);
+  font-size: 0.88rem;
+  color: var(--text-main);
+  outline: none;
+  font-family: inherit;
+}
+
+.select-search-input:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 8px rgba(229, 169, 59, 0.3);
+}
+
+.options-list {
+  list-style: none;
+  padding: 4px 0;
+}
+
+.option-item {
+  padding: 11px 16px;
+  font-size: 0.92rem;
+  color: #dcd8d0;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.option-item:last-child {
+  border-bottom: none;
+}
+
+.option-item:hover, .option-item.selected {
+  background: linear-gradient(90deg, rgba(229, 169, 59, 0.18), transparent);
+  color: var(--gold-light);
+  font-weight: 700;
+  padding-left: 20px;
+}
+
+.option-item.no-result {
+  color: var(--text-dim);
+  cursor: default;
+  font-style: italic;
+  justify-content: center;
+}
+
+/* Button Witness Sacred Vow */
+.btn-open-invitation {
+  width: 100%;
+  padding: 15px 22px;
+  background: linear-gradient(135deg, #d38b1d 0%, #a46408 50%, #854a00 100%);
+  color: #ffffff;
+  border: 1px solid rgba(255, 215, 140, 0.5);
+  border-radius: var(--radius-md);
+  font-family: var(--font-serif);
+  font-size: 0.96rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: 0 8px 30px rgba(211, 139, 29, 0.45);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-open-invitation:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(135deg, #e5a93b 0%, #b87b14 50%, #995b05 100%);
+  box-shadow: 0 10px 40px rgba(229, 169, 59, 0.6);
+}
+
+.btn-open-invitation:active {
+  transform: translateY(0);
+}
+
+.bgm-hint-text {
+  margin-top: 18px;
+  font-size: 0.74rem;
+  letter-spacing: 1px;
+  color: var(--gold-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+/* ==========================================================================
+   FLOATING ARTIFACT MUSIC CONTROLLER
+   ========================================================================== */
+.music-toggle-btn {
+  position: fixed;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  right: calc(16px + env(safe-area-inset-right, 0px));
+  z-index: 999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: var(--radius-full);
+  background: rgba(18, 18, 24, 0.94);
+  backdrop-filter: blur(12px);
+  border: 1.5px solid var(--gold-primary);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(229, 169, 59, 0.25);
+  color: var(--gold-light);
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+body:not(.locked) .music-toggle-btn {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.music-toggle-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 35px rgba(229, 169, 59, 0.45);
+}
+
+.music-icon-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.music-toggle-btn .icon-muted { display: none; }
+
+.music-toggle-btn.muted {
+  background: rgba(10, 10, 12, 0.95);
+  color: var(--text-muted);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+}
+
+.music-toggle-btn.muted .icon-playing { display: none; }
+.music-toggle-btn.muted .icon-muted { display: inline-block; }
+
+.music-toggle-btn.playing .icon-playing {
+  animation: swordPulse 2s ease-in-out infinite alternate;
+}
+
+@keyframes swordPulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 2px var(--gold-primary)); }
+  100% { transform: scale(1.2); filter: drop-shadow(0 0 8px var(--ember-orange)); }
+}
+
+/* ==========================================================================
+   TOP STICKY CHAPTER NAV
+   ========================================================================== */
+.page-top-nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 18px;
+  background: rgba(10, 10, 14, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(229, 169, 59, 0.25);
+  transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+
+/* Hide nav and music button when fullscreen slideshow is active */
+body.page-8-active .page-top-nav,
+body.page-8-active .music-toggle-btn {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.nav-couple-logo {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 0.88rem;
+  letter-spacing: 2px;
+  color: var(--gold-light);
+}
+
+.page-dots-indicator {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.page-dots-indicator .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(229, 169, 59, 0.25);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.page-dots-indicator .dot.active {
+  width: 20px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--gold-primary), var(--ember-orange));
+  box-shadow: 0 0 10px rgba(229, 169, 59, 0.6);
+}
+
+.page-counter-badge {
+  font-family: var(--font-serif);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--gold-light);
+  background: rgba(229, 169, 59, 0.15);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(229, 169, 59, 0.3);
+}
+
+/* ==========================================================================
+   WEDDING PAGE CARDS & CHAPTERS
+   ========================================================================== */
+.wedding-page {
+  display: none;
+  opacity: 0;
+  padding: 22px 16px calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+.wedding-page.active {
+  display: block;
+  opacity: 1;
+  animation: cinematicSlideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes cinematicSlideUp {
+  0% {
+    opacity: 0;
+    transform: translateY(22px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.page-content-box.cinematic-card {
+  background: var(--bg-card);
+  border: 1.5px solid var(--bg-card-border);
+  border-radius: var(--radius-lg);
+  padding: 38px 24px 34px;
+  box-shadow: var(--shadow-card);
+  position: relative;
+  text-align: center;
+  overflow: hidden;
+}
+
+.page-content-box.cinematic-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+}
+
+/* Guest Greeting Pill */
+.guest-greeting-pill {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 20px;
+  background: rgba(14, 14, 18, 0.9);
+  border: 1px solid rgba(229, 169, 59, 0.3);
+  border-radius: var(--radius-md);
+  margin-bottom: 22px;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.greeting-to {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+
+.greeting-name {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--gold-light);
+  letter-spacing: 0.5px;
+  margin-top: 2px;
+}
+
+.bismillah-text {
+  font-family: var(--font-arabic);
+  font-size: 1.9rem;
+  color: var(--gold-light);
+  margin: 10px 0 18px;
+  line-height: 1.8;
+  direction: rtl;
+  filter: drop-shadow(0 0 10px rgba(229, 169, 59, 0.3));
+}
+
+.chapter-label {
+  display: inline-block;
+  font-size: 0.74rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-primary);
+  font-weight: 800;
+  margin-bottom: 8px;
+}
+
+.cinematic-heading {
+  font-family: var(--font-serif);
+  font-size: 1.65rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color: #ffffff;
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+/* Dramatic Divider */
+.dramatic-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 16px 0 24px;
+  color: var(--gold-primary);
+}
+
+.blade-line {
+  height: 1px;
+  width: 50px;
+  background: linear-gradient(90deg, transparent, var(--gold-primary));
+}
+
+.dramatic-divider .blade-line:last-child {
+  background: linear-gradient(90deg, var(--gold-primary), transparent);
+}
+
+.emblem-star {
+  font-size: 0.9rem;
+  filter: drop-shadow(0 0 6px var(--gold-primary));
+}
+
+/* ==========================================================================
+   CHAPTER 1: PROLOGUE
+   ========================================================================== */
+.prologue-quote {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  line-height: 1.75;
+  font-style: italic;
+  margin-bottom: 16px;
+  padding: 0 6px;
+}
+
+.prologue-body {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   CHAPTER 2: WARRIORS OF THE VOW (MEMPELAI)
+   ========================================================================== */
+.section-lead-text {
+  font-size: 0.94rem;
+  color: var(--text-muted);
+  margin-bottom: 22px;
+  line-height: 1.7;
+}
+
+.warrior-card {
+  background: rgba(14, 14, 18, 0.75);
+  border: 1px solid rgba(229, 169, 59, 0.25);
+  border-radius: var(--radius-md);
+  padding: 24px 16px;
+  margin: 14px 0;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.warrior-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(229, 169, 59, 0.5);
+}
+
+.warrior-photo-frame {
+  width: 124px;
+  height: 124px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  border: 3px solid var(--gold-primary);
+  padding: 4px;
+  background: #08080a;
+  position: relative;
+  box-shadow: 0 0 25px rgba(229, 169, 59, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.frame-halo {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(229, 169, 59, 0.45);
+  animation: spinSlow 20s linear infinite;
+}
+
+@keyframes spinSlow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.warrior-photo {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 25%;
+  display: block;
+}
+
+.warrior-name {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.warrior-heritage {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.warrior-heritage strong {
+  color: var(--gold-light);
+}
+
+.vow-connector {
+  margin: 16px 0;
+}
+
+.connector-glow {
+  display: inline-block;
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: var(--ember-orange);
+  background: rgba(255, 87, 34, 0.1);
+  border: 1px solid rgba(255, 87, 34, 0.35);
+  padding: 4px 16px;
+  border-radius: var(--radius-full);
+}
+
+/* ==========================================================================
+   CHAPTER 3: THE SACRED PACT (INTIMATE WEDDING)
+   ========================================================================== */
+.epic-callout-box {
+  background: linear-gradient(135deg, rgba(229, 169, 59, 0.12) 0%, rgba(255, 87, 34, 0.08) 100%);
+  border-left: 3px solid var(--gold-primary);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: 16px 18px;
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.callout-title {
+  font-family: var(--font-serif);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--gold-light);
+  margin-bottom: 6px;
+}
+
+.callout-desc {
+  font-size: 0.9rem;
+  color: #e5e0d8;
+  line-height: 1.65;
+}
+
+.solemn-apology {
+  font-size: 0.94rem;
+  color: var(--text-main);
+  line-height: 1.75;
+  margin-bottom: 18px;
+}
+
+.intimate-definition-card {
+  background: #111117;
+  border: 1px solid rgba(229, 169, 59, 0.25);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+.def-badge {
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--gold-primary);
+  margin-bottom: 6px;
+}
+
+.def-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+}
+
+.def-text strong {
+  color: #ffffff;
+}
+
+.distance-quote {
+  font-size: 0.92rem;
+  color: var(--gold-light);
+  font-style: italic;
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+   CHAPTER 4: THE SACRED BLESSING (DOA PERISAI)
+   ========================================================================== */
+.silent-request-banner {
+  background: rgba(229, 169, 59, 0.08);
+  border: 1px dashed var(--gold-primary);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  font-size: 0.94rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  margin-bottom: 22px;
+}
+
+.ancient-doa-stone {
+  background: radial-gradient(circle at 50% 30%, #17161e 0%, #0d0d12 100%);
+  border: 1.5px solid rgba(229, 169, 59, 0.35);
+  border-radius: var(--radius-md);
+  padding: 26px 18px;
+  margin-bottom: 22px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6);
+}
+
+.doa-glow-rune {
+  font-family: var(--font-arabic);
+  font-size: 1.7rem;
+  line-height: 2.3;
+  color: #ffffff;
+  direction: rtl;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 12px rgba(229, 169, 59, 0.45));
+}
+
+.doa-translit {
+  font-size: 0.94rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--gold-light);
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.doa-divider-dash {
+  height: 1px;
+  width: 60%;
+  background: rgba(229, 169, 59, 0.3);
+  margin: 0 auto 16px;
+}
+
+.doa-meaning-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+}
+
+.hadith-ref {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  margin-top: 6px;
+}
+
+.gratitude-shield-box {
+  background: rgba(14, 14, 18, 0.85);
+  border: 1px solid rgba(229, 169, 59, 0.25);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  text-align: left;
+}
+
+.shield-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.shield-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.shield-desc strong {
+  color: var(--gold-light);
+}
+
+/* ==========================================================================
+   CHAPTER 5: RETURN OF BLESSINGS (DOA UNTUK PEMBACA)
+   ========================================================================== */
+.blessing-lead-quote {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+.powers-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+  text-align: left;
+}
+
+.power-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(14, 14, 20, 0.8);
+  border: 1px solid rgba(229, 169, 59, 0.22);
+  border-radius: var(--radius-md);
+  padding: 16px 14px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.power-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(229, 169, 59, 0.5);
+}
+
+.power-icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #09090c;
+  border: 1.5px solid var(--gold-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold-light);
+  flex-shrink: 0;
+  box-shadow: 0 0 12px rgba(229, 169, 59, 0.25);
+}
+
+.power-detail h4 {
+  font-family: var(--font-serif);
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  color: var(--gold-light);
+  margin-bottom: 4px;
+}
+
+.power-detail p {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.amen-solemn-text {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--gold-light);
+  margin-top: 6px;
+}
+
+/* ==========================================================================
+   CHAPTER 6: PRASASTI DOA RESTU (BUKU TAMU)
+   ========================================================================== */
+.wishes-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 26px;
+  text-align: left;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--gold-light);
+}
+
+.form-input, .form-textarea {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--bg-input);
+  border: 1.5px solid rgba(229, 169, 59, 0.35);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 16px !important; /* Mencegah auto zoom Safari */
+  color: #ffffff;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.form-input:focus, .form-textarea:focus {
+  border-color: var(--gold-primary);
+  box-shadow: 0 0 15px rgba(229, 169, 59, 0.3);
+}
+
+.form-textarea {
+  min-height: 95px;
+  resize: vertical;
+}
+
+.btn-submit-wish {
+  padding: 14px 20px;
+  background: linear-gradient(135deg, #2b1f14 0%, #15110d 100%);
+  border: 1.5px solid var(--gold-primary);
+  color: var(--gold-light);
+  border-radius: var(--radius-md);
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-submit-wish:hover {
+  background: linear-gradient(135deg, #d38b1d 0%, #854a00 100%);
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(211, 139, 29, 0.4);
+}
+
+.wishes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 380px;
+  overflow-y: auto;
+  padding-right: 4px;
+  text-align: left;
+}
+
+.wish-item {
+  background: #111116;
+  border: 1px solid rgba(229, 169, 59, 0.2);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  transition: transform 0.2s ease;
+}
+
+.wish-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.wish-sender {
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--gold-light);
+}
+
+.wish-time {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.wish-message {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+/* ==========================================================================
+   CHAPTER 7: EPILOGUE - GRAND TERIMA KASIH
+   ========================================================================== */
+.final-outro-card {
+  padding: 44px 22px 36px;
+  background: radial-gradient(circle at 50% 25%, #191414 0%, #0c0b0e 100%);
+}
+
+.outro-emblem {
+  color: var(--gold-primary);
+  margin-bottom: 10px;
+  display: inline-flex;
+  filter: drop-shadow(0 0 15px rgba(229, 169, 59, 0.5));
+  animation: breathePulse 2.8s ease-in-out infinite;
+}
+
+.grand-cinematic-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 8.5vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: 6px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--gold-light) 50%, var(--gold-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 8px 0 14px;
+  line-height: 1.15;
+  filter: drop-shadow(0 0 25px rgba(229, 169, 59, 0.4));
+}
+
+.final-lead-text {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+
+.final-body-text {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.final-seal-box {
+  background: rgba(14, 14, 18, 0.85);
+  border: 1px solid rgba(229, 169, 59, 0.35);
+  border-radius: var(--radius-md);
+  padding: 24px 18px;
+  margin: 20px 0;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+}
+
+.seal-couple-script {
+  font-family: var(--font-script);
+  font-size: 2.8rem;
+  color: var(--gold-light);
+  margin-bottom: 6px;
+  line-height: 1.2;
+  filter: drop-shadow(0 0 10px rgba(229, 169, 59, 0.3));
+}
+
+.seal-salam {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  font-style: italic;
+  margin-bottom: 16px;
+}
+
+.seal-families {
+  font-size: 0.84rem;
+  color: #dcd8d0;
+  line-height: 1.6;
+  border-top: 1px dashed rgba(229, 169, 59, 0.3);
+  padding-top: 14px;
+}
+
+.seal-families strong {
+  color: #ffffff;
+}
+
+.seal-ampersand {
+  font-family: var(--font-serif);
+  color: var(--gold-primary);
+  font-weight: 800;
+  margin: 4px 0;
+}
+
+/* ==========================================================================
+   PAGE NAVIGATION BUTTONS
+   ========================================================================== */
+.page-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(229, 169, 59, 0.2);
+}
+
+.page-nav-actions.single-action {
+  justify-content: center;
+}
+
+.page-nav-actions.dual-actions {
+  justify-content: space-between;
+}
+
+.btn-page-nav {
+  padding: 13px 20px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-serif);
+  font-size: 0.86rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.25s ease;
+  border: none;
+}
+
+.btn-page-nav.btn-next {
+  flex: 1.5;
+  background: linear-gradient(135deg, #d38b1d 0%, #9e5f03 100%);
+  color: #ffffff;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(211, 139, 29, 0.4);
+  border: 1px solid rgba(255, 215, 140, 0.4);
+}
+
+.btn-page-nav.btn-next:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(229, 169, 59, 0.55);
+}
+
+.btn-page-nav.btn-prev {
+  flex: 1;
+  background: #14141c;
+  color: var(--text-muted);
+  border: 1px solid rgba(229, 169, 59, 0.3);
+  justify-content: center;
+}
+
+.btn-page-nav.btn-prev:hover {
+  background: #1c1c26;
+  color: var(--text-main);
+}
+
+.btn-page-nav.btn-restart {
+  flex: 1.3;
+  background: #1a1614;
+  color: var(--gold-light);
+  border: 1px solid rgba(229, 169, 59, 0.4);
+  justify-content: center;
+}
+
+.btn-page-nav.btn-restart:hover {
+  background: #2b221d;
+  color: #ffffff;
+}
+
+/* ==========================================================================
+   TOAST NOTIFICATION
+   ========================================================================== */
+.toast-msg {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-30px);
+  background: rgba(18, 18, 24, 0.96);
+  border: 1px solid var(--gold-primary);
+  color: var(--gold-light);
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
+  font-size: 0.88rem;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 15px rgba(229, 169, 59, 0.3);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.toast-msg.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Keyframe Animations */
+@keyframes dramaticFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes breathePulse {
+  0% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(229, 169, 59, 0.3)); }
+  50% { transform: scale(1.06); filter: drop-shadow(0 0 20px rgba(255, 87, 34, 0.6)); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(229, 169, 59, 0.3)); }
+}
+
+/* Responsive Mobile Optimizations */
+@media (max-width: 480px) {
+  .cover-card {
+    padding: 34px 18px 28px;
+  }
+  
+  .cover-title {
+    font-size: 1.1rem;
+    letter-spacing: 2.5px;
+  }
+  
+  .cover-couple {
+    font-size: 1.95rem;
+  }
+  
+  .page-content-box.cinematic-card {
+    padding: 28px 16px 26px;
+  }
+  
+  .cinematic-heading {
+    font-size: 1.35rem;
+  }
+  
+  .warrior-photo-frame {
+    width: 110px;
+    height: 110px;
+  }
+  
+  .warrior-name {
+    font-size: 1.25rem;
+  }
+  
+  .doa-glow-rune {
+    font-size: 1.45rem;
+    line-height: 2.2;
+  }
+}
+
+/* ==========================================================================
+   BAB 8: KILAS GARIS DEPAN — FULLSCREEN PURE CINEMATIC SLIDESHOW
+   No card, no border, no text. Pure photos + dark dramatic tint.
+   ========================================================================== */
+
+/* Page 8 overrides: fullscreen takeover, no padding, no card wrapper */
+.page-slideshow-fullscreen {
+  display: none;
+  position: fixed !important;
+  inset: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 200;
+  background: #000;
+}
+
+.page-slideshow-fullscreen.active {
+  display: block;
+  opacity: 1;
+  animation: none;
+}
+
+/* Subtle floating back arrow (top-left, barely visible) */
+.slideshow-floating-back {
+  position: fixed;
+  top: 20px;
+  left: 18px;
+  z-index: 400;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 10, 14, 0.55);
+  border: 1px solid rgba(229, 169, 59, 0.3);
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(8px);
+}
+
+.slideshow-floating-back:hover {
+  background: rgba(18, 16, 22, 0.88);
+  color: var(--gold-light);
+  border-color: rgba(229, 169, 59, 0.6);
+}
+
+/* 1:00 - 1:09 Suspense: Pure black + minimal countdown timer */
+.suspense-screen {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Countdown wrapper — centered on screen */
+.suspense-countdown-wrap {
+  position: relative;
+  width: 160px;
+  height: 160px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Large countdown number in center */
+.suspense-countdown-number {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-serif);
+  font-size: 5rem;
+  font-weight: 900;
+  color: #ffffff;
+  letter-spacing: -2px;
+  line-height: 1;
+  text-shadow: 0 0 40px rgba(229, 169, 59, 0.6), 0 0 80px rgba(229, 169, 59, 0.2);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.suspense-countdown-number.tick {
+  opacity: 0;
+  transform: scale(0.7);
+}
+
+/* SVG ring around the number */
+.suspense-countdown-ring {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.countdown-ring-svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.ring-bg {
+  fill: none;
+  stroke: rgba(229, 169, 59, 0.12);
+  stroke-width: 3;
+}
+
+.ring-fill {
+  fill: none;
+  stroke: var(--gold-primary);
+  stroke-width: 3;
+  stroke-linecap: round;
+  /* circumference = 2 * π * 52 ≈ 326.7 */
+  stroke-dasharray: 326.7;
+  stroke-dashoffset: 0;
+  filter: drop-shadow(0 0 6px rgba(229, 169, 59, 0.7));
+  transition: stroke-dashoffset 0.9s linear;
+}
+
+/* Fullscreen Slideshow Stage */
+.slideshow-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  animation: dramaticFadeIn 0.5s ease-out;
+}
+
+/* Cinematic Dark Tint Layer — heavier for more dramatic feel */
+.slideshow-dark-tint {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  /* Vignette + flat dark overlay combined */
+  background:
+    radial-gradient(ellipse at center, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.65) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.5) 100%);
+  pointer-events: none;
+}
+
+/* Fullscreen Slides Viewport */
+.slides-viewport {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.slide-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  /* Smooth cross-fade with slight scale drift for cinematic feel */
+  transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1), visibility 1.4s ease;
+  pointer-events: none;
+}
+
+.slide-item.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Slide entering: fade in from slightly below (upward drift) */
+.slide-item.active .slide-photo {
+  animation: kenBurnsZoom 5.5s ease-out forwards, slideEntrance 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideEntrance {
+  0%   { transform: scale(1.04) translateY(6px); }
+  100% { transform: scale(1.0)  translateY(0px); }
+}
+
+@keyframes kenBurnsZoom {
+  0%   { transform: scale(1.0); }
+  100% { transform: scale(1.08); }
+}
+
+/* Hairline progress bar at the very bottom of the screen */
+.slideshow-hairline-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  z-index: 10;
+}
+
+.hairline-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-primary), var(--ember-orange));
+  box-shadow: 0 0 8px rgba(229, 169, 59, 0.6);
+  transition: width 0.25s linear;
+}
+
+/* Minimal Finish Overlay — anchored at screen bottom center */
+.slideshow-finish-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.3) 55%, transparent 100%);
+  animation: dramaticFadeIn 0.8s ease-out;
+}
+
+.finish-minimal-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn-fullscreen-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  background: rgba(10, 10, 14, 0.82);
+  color: var(--gold-light);
+  border: 1.5px solid rgba(229, 169, 59, 0.5);
+  border-radius: var(--radius-full);
+  font-family: var(--font-serif);
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+.btn-fullscreen-control:hover {
+  background: rgba(229, 169, 59, 0.2);
+  border-color: var(--gold-primary);
+  color: #fff;
+  box-shadow: 0 6px 25px rgba(229, 169, 59, 0.3);
+}
+
+/* ==========================================================================
+   FULLSCREEN CINEMATIC FADE VEIL TRANSITION
+   ========================================================================== */
+.cinematic-fade-veil {
+  position: fixed;
+  inset: 0;
+  background: #08080c;
+  z-index: 9998;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.5s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cinematic-fade-veil.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.veil-glow {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(229, 169, 59, 0.22) 0%, transparent 70%);
+  animation: breathePulse 1.2s infinite ease-in-out;
+}

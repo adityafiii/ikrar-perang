@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <!-- Primary Meta Tags -->
+  <title>Pemberitahuan Sumpah Sakral - Aditya &amp; Salsa</title>
+  <meta name="title" content="Pemberitahuan Sumpah Sakral - Aditya & Salsa">
+  <meta name="description" content="Kabar sakral pernikahan Aditya Firmansyah & Salsa Nabila Ramadhani. Melangkah ke garis depan babak baru kehidupan.">
+  
+  <!-- Open Graph / WhatsApp Preview Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Pemberitahuan Sumpah Sakral - Aditya &amp; Salsa">
+  <meta property="og:description" content="Melangkah bersama ke garis depan takdir. Mohon doa restu dari segenap keluarga, sahabat, dan kerabat tercinta.">
+  <meta property="og:image" content="assets/aditya.jpg">
+  <meta name="theme-color" content="#0a0a0c">
+
+  <!-- Google Fonts: Dramatic Cinematic Serif, Display, and Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@600;700;800;900&family=Cinzel+Decorative:wght@700;900&family=Great+Vibes&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="locked">
+
+  <!-- Cinematic Background Canvas (Glowing Floating Embers & Sparks) -->
+  <canvas id="embersCanvas"></canvas>
+
+  <!-- Cinematic Letterbox Bars -->
+  <div class="cinematic-bar top-bar"></div>
+  <div class="cinematic-bar bottom-bar"></div>
+
+  <!-- Fullscreen Cinematic Transition Fade Veil -->
+  <div class="cinematic-fade-veil" id="cinematicFadeVeil">
+    <div class="veil-glow"></div>
+  </div>
+
+  <!-- ======================================================================
+       COVER / GATE: GERBANG SAKSI SUMPAH
+       ====================================================================== -->
+  <div class="cover-overlay" id="coverOverlay">
+    <div class="cover-card">
+      <div class="ember-glow-accent"></div>
+      
+      <div class="cover-emblem">
+        <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 2L3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5z"/>
+          <path d="M12 6l2.5 5 5.5.8-4 3.9.9 5.3-4.9-2.6-4.9 2.6.9-5.3-4-3.9 5.5-.8z"/>
+        </svg>
+      </div>
+      
+      <span class="cover-badge">PEMBERITAHUAN SUMPAH SAKRAL</span>
+      <h1 class="cover-title">DEPARTURE TO THE FRONT LINE</h1>
+      <div class="cover-couple">ADITYA &amp; SALSA</div>
+      <p class="cover-desc">
+        Sebuah ikrar suci telah dipersiapkan di hadapan semesta. Dua jiwa bersiap melangkah bersama ke garis depan takdir kehidupan baru.
+      </p>
+
+      <!-- Dropdown Identifikasi Tamu -->
+      <div class="guest-selector-group">
+        <label class="selector-label" for="customSelectTrigger">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          Saksi Sumpah / Ditujukan Kepada:
+        </label>
+        
+        <div class="custom-select-wrapper" id="customSelectWrapper">
+          <div class="custom-select-trigger" id="customSelectTrigger" tabindex="0" role="combobox" aria-expanded="false">
+            <span class="trigger-text" id="selectedGuestText">Pilih Nama Anda...</span>
+            <div class="trigger-arrow">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+          </div>
+
+          <div class="custom-select-options" id="customSelectOptions">
+            <div class="select-search-box">
+              <input type="text" id="guestSearchInput" class="select-search-input" placeholder="🔍 Cari nama Anda..." autocomplete="off">
+            </div>
+            <ul class="options-list" id="guestOptionsList">
+              <!-- Populated from guests.js -->
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" class="btn-open-invitation" id="btnOpenInvitation">
+        <span class="btn-pulse-glow"></span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+        <span>SAKSIKAN IKRAR PERNIKAHAN</span>
+      </button>
+
+      <div class="bgm-hint-text">
+        <span>⚔️ BGM: Departure to the Front Line (Shutsujin)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       FLOATING MUSIC TOGGLE BUTTON (CINEMATIC ARTIFACT CONTROLLER)
+       ====================================================================== -->
+  <button type="button" class="music-toggle-btn" id="musicToggleBtn" aria-label="Putar atau Matikan Musik">
+    <span class="music-icon-wrap">
+      <svg class="icon-playing" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+      </svg>
+      <svg class="icon-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <line x1="23" y1="9" x2="17" y2="15"></line>
+        <line x1="17" y1="9" x2="23" y2="15"></line>
+      </svg>
+    </span>
+    <span class="music-btn-text" id="musicBtnText">Matikan Musik</span>
+  </button>
+  
+  <!-- Audio Tags: Story BGM (Bab 1-7) & Climax BGM (Bab 8 Slideshow) -->
+  <audio id="bgMusicStory" loop preload="auto">
+    <source src="assets/bgm-story.mp3" type="audio/mpeg">
+    <source src="assets/bgm.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="bgMusicClimax" preload="auto">
+    <source src="assets/bgm-climax.mp3" type="audio/mpeg">
+    <source src="assets/bgm.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="bgMusic" loop preload="auto">
+    <source src="assets/bgm-story.mp3" type="audio/mpeg">
+    <source src="assets/bgm.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- ======================================================================
+       MAIN CONTENT CONTAINER (CINEMATIC CHAPTER STORYTELLING)
+       ====================================================================== -->
+  <div class="main-wrapper" id="mainContainer">
+
+    <!-- Sticky Top Navigation Bar -->
+    <nav class="page-top-nav" id="pageTopNav">
+      <div class="nav-left">
+        <span class="nav-couple-logo">ADITYA × SALSA</span>
+      </div>
+      <div class="nav-center">
+        <!-- Dots Step Indicator (8 Chapters) -->
+        <div class="page-dots-indicator" id="pageDotsIndicator">
+          <span class="dot active" data-goto="1" title="Prolog Takdir"></span>
+          <span class="dot" data-goto="2" title="Para Pejuang"></span>
+          <span class="dot" data-goto="3" title="Sumpah Intimate"></span>
+          <span class="dot" data-goto="4" title="Doa Perisai"></span>
+          <span class="dot" data-goto="5" title="Doa Kekuatan"></span>
+          <span class="dot" data-goto="6" title="Prasasti Restu"></span>
+          <span class="dot" data-goto="7" title="Terima Kasih"></span>
+          <span class="dot" data-goto="8" title="Kilas Garis Depan"></span>
+        </div>
+      </div>
+      <div class="nav-right">
+        <span class="page-counter-badge" id="pageCounterBadge">BAB 1 / 8</span>
+      </div>
+    </nav>
+
+    <!-- ====================================================================
+         BAB 1: PROLOG TAKDIR (THE AWAKENING)
+         ==================================================================== -->
+    <article class="wedding-page active" id="page-1" data-page="1">
+      <div class="page-content-box cinematic-card">
+        <div class="guest-greeting-pill">
+          <span class="greeting-to">Pemberitahuan Sumpah Untuk:</span>
+          <span class="greeting-name" id="displayGuestName">Tamu Terhormat</span>
+        </div>
+
+        <div class="bismillah-text">
+          بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+        </div>
+
+        <span class="chapter-label">BABAK I : AWAL LANGKAH</span>
+        <h2 class="cinematic-heading">PANGGILAN TAKDIR</h2>
+
+        <div class="dramatic-divider">
+          <span class="blade-line"></span>
+          <span class="emblem-star">✦</span>
+          <span class="blade-line"></span>
+        </div>
+
+        <p class="prologue-quote">
+          "Tidak ada yang terjadi secara kebetulan di alam semesta ini. Di antara miliaran bintang dan takdir yang saling bersilangan, dua jiwa telah memilih jalan mereka."
+        </p>
+
+        <p class="prologue-body">
+          Ini bukan lagi tentang bertahan seorang diri menghadapi dinginnya dunia, melainkan tentang dua insan yang bersumpah untuk berdiri tegak berdampingan—saling menjaga punggung, menghadapi badai apa pun yang menanti di depan.
+        </p>
+
+        <div class="page-nav-actions single-action">
+          <button type="button" class="btn-page-nav btn-next" data-next="2">
+            <span>Lihat Dua Jiwa di Garis Depan</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================================================================
+         BAB 2: DUA JIWA DI GARIS DEPAN (MEMPELAI)
+         ==================================================================== -->
+    <article class="wedding-page" id="page-2" data-page="2">
+      <div class="page-content-box cinematic-card">
+        <span class="chapter-label">BABAK II : DUA MEMPELAI</span>
+        <h2 class="cinematic-heading">IKATAN SUCI</h2>
+
+        <div class="dramatic-divider">
+          <span class="blade-line"></span>
+          <span class="emblem-star">✦</span>
+          <span class="blade-line"></span>
+        </div>
+
+        <p class="section-lead-text">
+          Dengan penuh kerendahan hati serta memohon ridho dan perlindungan Allah SWT, kami mengabarkan pernikahan suci:
+        </p>
+
+        <!-- Mempelai Pria -->
+        <div class="warrior-card">
+          <div class="warrior-photo-frame">
+            <div class="frame-halo"></div>
+            <img src="assets/aditya.jpg" alt="Aditya Firmansyah" class="warrior-photo">
+          </div>
+          <h3 class="warrior-name">Aditya Firmansyah</h3>
+          <p class="warrior-heritage">
+            Putra ke-4 dari Pasangan Tangguh<br>
+            <strong>Bapak Hartono</strong> &amp; <strong>Ibu Nani Dahlia</strong>
+          </p>
+        </div>
+
+        <div class="vow-connector">
+          <span class="connector-glow">BERSUMPAH BERSAMA</span>
+        </div>
+
+        <!-- Mempelai Wanita -->
+        <div class="warrior-card">
+          <div class="warrior-photo-frame">
+            <div class="frame-halo"></div>
+            <img src="assets/salsa.jpg" alt="Salsa Nabila Ramadhani" class="warrior-photo">
+          </div>
+          <h3 class="warrior-name">Salsa Nabila Ramadhani</h3>
+          <p class="warrior-heritage">
+            Putri ke-4 dari Pasangan Terhormat<br>
+            <strong>Bapak Ali Sapar</strong> &amp; <strong>Ibu Desi Yulianti</strong>
+          </p>
+        </div>
+
+        <div class="page-nav-actions dual-actions">
+          <button type="button" class="btn-page-nav btn-prev" data-prev="1">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Prolog</span>
+          </button>
+          <button type="button" class="btn-page-nav btn-next" data-next="3">
+            <span>Sumpah Sakral</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================================================================
+         BAB 3: SUMPAH INTIMATE (THE SACRED PACT)
+         ==================================================================== -->
+    <article class="wedding-page" id="page-3" data-page="3">
+      <div class="page-content-box cinematic-card">
+        <span class="chapter-label">BABAK III : PROSESI HENING</span>
+        <h2 class="cinematic-heading">PERMOHONAN MAAF KAMI</h2>
+
+        <div class="dramatic-divider">
+          <span class="blade-line"></span>
+          <span class="emblem-star">✦</span>
+          <span class="blade-line"></span>
+        </div>
+
+        <div class="epic-callout-box">
+          <h4 class="callout-title">MENGAPA TANPA GEGAP GEMPITA?</h4>
+          <p class="callout-desc">
+            Karena perang teragung dan sumpah terkeramat tidak membutuhkan gemuruh riuh duniawi untuk menjadi abadi. Janji ini diikat dalam keheningan yang khusyuk di hadapan Sang Pencipta.
+          </p>
+        </div>
+
+        <p class="solemn-apology">
+          Dengan penuh kerendahan hati yang paling dalam, kami memohon maaf yang sebesar-besarnya kepada seluruh keluarga besar, sahabat, rekan seperjuangan, dan handai taulan karena tidak dapat mengundang secara fisik ke tempat ijab kabul dilangsungkan.
+        </p>
+
+        <div class="intimate-definition-card">
+          <div class="def-badge">KONSEP PERNIKAHAN INTIMATE:</div>
+          <p class="def-text">
+            Pernikahan ini kami laksanakan secara <strong>INTIMATE</strong> 
+            <em>(pernikahan yang diselenggarakan secara sederhana, khidmat, dan tertutup, yang hanya dihadiri oleh keluarga inti terdekat demi menjaga kesucian serta kekhidmatan setiap kata dalam ikrar ijab kabul)</em>.
+          </p>
+        </div>
+
+        <p class="distance-quote">
+          Walau berjarak tempat dan raga, doa tulus yang kalian hembuskan dari kejauhan adalah benteng perisai terkuat bagi awal perjalanan kami.
+        </p>
+
+        <div class="page-nav-actions dual-actions">
+          <button type="button" class="btn-page-nav btn-prev" data-prev="2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Kembali</span>
+          </button>
+          <button type="button" class="btn-page-nav btn-next" data-next="4">
+            <span>Lafalkan Doa Perisai</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================================================================
+         BAB 4: DOA PERISAI (THE SACRED BLESSING)
+         ==================================================================== -->
+    <article class="wedding-page" id="page-4" data-page="4">
+      <div class="page-content-box cinematic-card">
+        <span class="chapter-label">BABAK IV : RESTU DARI ANDA</span>
+        <h2 class="cinematic-heading">DOA PERISAI PERNIKAHAN</h2>
+
+        <div class="dramatic-divider">
+          <span class="blade-line"></span>
+          <span class="emblem-star">✦</span>
+          <span class="blade-line"></span>
+        </div>
+
+        <div class="silent-request-banner">
+          "Harap dapat menyisihkan waktu sebentar untuk membaca doa di bawah ini"
+        </div>
+
+        <!-- Ancient Runes Doa Box -->
+        <div class="ancient-doa-stone">
+          <div class="doa-glow-rune">
+            بَارَكَ اللهُ لَكَ وَبَارَكَ عَلَيْكَ وَجَمَعَ بَيْنَكُمَا فِي خَيْرٍ
+          </div>
+          <p class="doa-translit">
+            "Bârakallâhu laka wa bâraka 'alaika wa jama'a bainakumâ fî khair"
+          </p>
+          <div class="doa-divider-dash"></div>
+          <p class="doa-meaning-text">
+            <strong>Artinya:</strong> "Semoga Allah memberkahimu di waktu bahagia dan memberkahimu di waktu susah, serta mengumpulkan kalian berdua senantiasa dalam kebaikan."<br>
+            <span class="hadith-ref">(HR. Abu Daud, Tirmidzi, dan Ibnu Majah)</span>
+          </p>
+        </div>
+
+        <div class="gratitude-shield-box">
+          <div class="shield-icon">🛡️</div>
+          <div class="shield-desc">
+            <strong>Rasa Syukur &amp; Terima Kasih Kami:</strong><br>
+            Jazakumullahu khairan katsiran. Terima kasih yang tak terhingga atas keikhlasan waktu dan doa yang telah Anda panjatkan untuk menjadi pelindung langkah kami.
+          </div>
+        </div>
+
+        <div class="page-nav-actions dual-actions">
+          <button type="button" class="btn-page-nav btn-prev" data-prev="3">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Kembali</span>
+          </button>
+          <button type="button" class="btn-page-nav btn-next" data-next="5">
+            <span>Doa Balik Untuk Anda</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================================================================
+         BAB 5: DOA KEKUATAN UNTUK ANDA (RETURN OF BLESSINGS)
+         ==================================================================== -->
+    <article class="wedding-page" id="page-5" data-page="5">
+      <div class="page-content-box cinematic-card">
+        <span class="chapter-label">BABAK V : UNTUK SAUDARAKU</span>
+        <h2 class="cinematic-heading">DOA KAMI UNTUK ANDA</h2>
+
+        <div class="dramatic-divider">
+          <span class="blade-line"></span>
+          <span class="emblem-star">✦</span>
+          <span class="blade-line"></span>
+        </div>
+
+        <p class="blessing-lead-quote">
+          "Doa baik yang kalian hembuskan tidak akan pernah kembali dengan tangan kosong. Sebagai saudara yang berdiri di belakang kami, semoga doa kekuatan ini berbalik berlipat ganda untuk Anda:"
+        </p>
+
+        <!-- Grid 4 Artefak Kekuatan -->
+        <div class="powers-grid">
+          <div class="power-card">
+            <div class="power-icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+              </svg>
+            </div>
+            <div class="power-detail">
+              <h4>KESEHATAN &amp; KEKUATAN RAGA</h4>
+              <p>Semoga Anda dan sekeluarga selalu dikaruniai raga yang kokoh, jiwa yang tenteram, serta umur panjang yang diberkahi.</p>
+            </div>
+          </div>
+
+          <div class="power-card">
+            <div class="power-icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path>
+                <line x1="12" y1="6" x2="12" y2="8"></line>
+                <line x1="12" y1="16" x2="12" y2="18"></line>
+              </svg>
+            </div>
+            <div class="power-detail">
+              <h4>KELAPANGAN REZEKI</h4>
+              <p>Semoga gerbang-gerbang rezeki yang halal, luas, dan tak terduga selalu dibukakan tanpa henti bagi perjuangan Anda.</p>
+            </div>
+          </div>
+
+          <div class="power-card">
+            <div class="power-icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 14 14"></polyline>
+              </svg>
+            </div>
+            <div class="power-detail">
+              <h4>KEMENANGAN SEGALA URUSAN</h4>
+              <p>Semoga setiap ikhtiar, pekerjaan, serta cita-cita yang sedang Anda perjuangkan dimudahkan dan berbuah kemenangan indah.</p>
+            </div>
+          </div>
+
+          <div class="power-card">
+            <div class="power-icon-circle">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
+            <div class="power-detail">
+              <h4>PERLINDUNGAN &amp; KEDAMAIAN</h4>
+              <p>Semoga keselamatan abadi menaungi langkah Anda dan kedamaian sejati selalu mengisi bilik rumah tangga Anda.</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="amen-solemn-text">
+          Aamiin Allahumma Aamiin. 🤲
+        </p>
+
+        <div class="page-nav-actions dual-actions">
+          <button type="button" class="btn-page-nav btn-prev" data-prev="4">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Kembali</span>
+          </button>
+          <button type="button" class="btn-page-nav btn-next" data-next="6">
+            <span>Tulis di Prasasti Restu</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================================================================
+         BAB 6: PRASASTI DOA RESTU (THE CHRONICLE / BUKU TAMU)
+         ==================================================================== -->
+    <article class="wedding-page" id="page-6" data-page="6">
+      <div class="page-content-box cinematic-card">
+        <span class="chapter-label">BABAK VI : BUKU SAKSI</span>
+        <h2 class="cinematic-heading">PRASASTI DOA RESTU</h2>
+
+        <div class="dramatic-divider">
+          <span class="blade-line"></span>
+          <span class="emblem-star">✦</span>
+          <span class="blade-line"></span>
+        </div>
+
+        <p class="section-lead-text">
+          Torehkan untaian doa dan ucapan selamat dari Anda untuk Aditya &amp; Salsa di prasasti ini:
+        </p>
+
+        <!-- Form Kirim Pesan Ksatria -->
+        <form class="wishes-form" id="wishesForm">
+          <div class="form-group">
+            <label class="form-label" for="wishSender">Nama Anda / Keluarga:</label>
+            <input type="text" id="wishSender" class="form-input" placeholder="Tuliskan nama Anda..." required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="wishMessage">Untaian Pesan &amp; Doa Restu:</label>
+            <textarea id="wishMessage" class="form-textarea" placeholder="Tuliskan kata-kata kekuatan atau doa restu terbaik Anda..." required></textarea>
+          </div>
+          <button type="submit" class="btn-submit-wish">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="22" y1="2" x2="11" y2="13"></line>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+            <span>TOREHKAN DOA RESTU</span>
+          </button>
+        </form>
+
+        <!-- Daftar Ucapan Masuk -->
+        <div class="wishes-list" id="wishesList">
+          <!-- Populated from localStorage -->
+        </div>
+
+        <div class="page-nav-actions dual-actions" style="margin-top: 28px;">
+          <button type="button" class="btn-page-nav btn-prev" data-prev="5">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Kembali</span>
+          </button>
+          <button type="button" class="btn-page-nav btn-next" data-next="7">
+            <span>Halaman Akhir</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================================================================
+         BAB 7: EPILOG - TERIMA KASIH (GRAND CONQUERING OUTRO)
+         ==================================================================== -->
+    <article class="wedding-page" id="page-7" data-page="7">
+      <div class="page-content-box cinematic-card final-outro-card">
+        <div class="outro-emblem">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+        </div>
+
+        <span class="chapter-label" style="letter-spacing: 4px;">PUNCAK RASA SYUKUR</span>
+        
+        <h1 class="grand-cinematic-title">TERIMA KASIH</h1>
+
+        <div class="dramatic-divider">
+          <span class="blade-line"></span>
+          <span class="emblem-star">✦</span>
+          <span class="blade-line"></span>
+        </div>
+
+        <p class="final-lead-text">
+          Atas segala ketulusan doa restu, curahan kasih sayang, dan keikhlasan pengertian yang telah Anda berikan kepada kami berdua.
+        </p>
+
+        <p class="final-body-text">
+          Langkah telah kami ayunkan. Sumpah telah terpatri kokoh di hadapan Sang Pencipta. Berdiri bersama, saling menjaga, hingga akhir masa. Kehadiran doa dari Anda adalah bekal teragung yang menyertai kami menuju masa depan.
+        </p>
+
+        <div class="final-seal-box">
+          <div class="seal-couple-script">Aditya &amp; Salsa</div>
+          <p class="seal-salam">Wassalamu’alaikum Warahmatullahi Wabarakatuh</p>
+          <div class="seal-families">
+            <p><strong>Keluarga Besar Bapak Hartono &amp; Ibu Nani Dahlia</strong></p>
+            <p class="seal-ampersand">✦ &amp; ✦</p>
+            <p><strong>Keluarga Besar Bapak Ali Sapar &amp; Ibu Desi Yulianti</strong></p>
+          </div>
+        </div>
+
+        <div class="page-nav-actions dual-actions" style="margin-top: 32px;">
+          <button type="button" class="btn-page-nav btn-prev" data-prev="6">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            <span>Prasasti Doa</span>
+          </button>
+          <button type="button" class="btn-page-nav btn-next" data-next="8">
+            <span>Kilas Garis Depan ⚔️</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </article>
+
+    <!-- ====================================================================
+         BAB 8: KILAS GARIS DEPAN (FULLSCREEN PURE CINEMATIC SLIDESHOW)
+         ==================================================================== -->
+    <article class="wedding-page page-slideshow-fullscreen" id="page-8" data-page="8">
+      
+      <!-- Subtle Floating Exit Control -->
+      <button type="button" class="slideshow-floating-back" data-prev="7" aria-label="Kembali ke Bab 7" title="Kembali ke Terima Kasih">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+
+      <!-- 1:00 - 1:09: Suspense Countdown Screen -->
+      <div class="suspense-screen" id="suspenseScreen">
+        <div class="suspense-countdown-wrap">
+          <div class="suspense-countdown-number" id="suspenseCountdown">9</div>
+          <div class="suspense-countdown-ring">
+            <svg class="countdown-ring-svg" viewBox="0 0 120 120">
+              <circle class="ring-bg" cx="60" cy="60" r="52"/>
+              <circle class="ring-fill" id="countdownRingFill" cx="60" cy="60" r="52"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- 1:09 - Selesai: Fullscreen Slideshow -->
+      <div class="slideshow-stage" id="slideshowStage" style="display: none;">
+        
+        <!-- Dark Dramatic Film Overlay Layer (Lapisan Gelap Sinematik) -->
+        <div class="slideshow-dark-tint"></div>
+
+        <!-- Slides Items Viewport -->
+        <div class="slides-viewport" id="slidesViewport">
+          <!-- 12 Photos Pure Visual (No Text / Captions) -->
+          <div class="slide-item active" data-index="0">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-1.jpg');"></div>
+            <img src="assets/slideshow/slide-1.jpg" alt="Foto 1" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="1">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-2.png');"></div>
+            <img src="assets/slideshow/slide-2.png" alt="Foto 2" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="2">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-3.jpg');"></div>
+            <img src="assets/slideshow/slide-3.jpg" alt="Foto 3" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="3">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-4.jpg');"></div>
+            <img src="assets/slideshow/slide-4.jpg" alt="Foto 4" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="4">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-5.jpg');"></div>
+            <img src="assets/slideshow/slide-5.jpg" alt="Foto 5" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="5">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-6.jpg');"></div>
+            <img src="assets/slideshow/slide-6.jpg" alt="Foto 6" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="6">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-7.jpg');"></div>
+            <img src="assets/slideshow/slide-7.jpg" alt="Foto 7" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="7">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-8.jpg');"></div>
+            <img src="assets/slideshow/slide-8.jpg" alt="Foto 8" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="8">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-9.jpg');"></div>
+            <img src="assets/slideshow/slide-9.jpg" alt="Foto 9" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="9">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-10.jpg');"></div>
+            <img src="assets/slideshow/slide-10.jpg" alt="Foto 10" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="10">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-11.jpg');"></div>
+            <img src="assets/slideshow/slide-11.jpg" alt="Foto 11" class="slide-photo" loading="eager">
+          </div>
+          <div class="slide-item" data-index="11">
+            <div class="slide-ambient-bg" style="background-image: url('assets/slideshow/slide-12.jpg');"></div>
+            <img src="assets/slideshow/slide-12.jpg" alt="Foto 12" class="slide-photo" loading="eager">
+          </div>
+        </div>
+
+        <!-- Hairline Subtle Progress Bar at very bottom -->
+        <div class="slideshow-hairline-progress">
+          <div class="hairline-fill" id="slideTrackerBar"></div>
+        </div>
+
+        <!-- Minimal Finish Overlay when track ends -->
+        <div class="slideshow-finish-overlay" id="slideshowFinishOverlay" style="display: none;">
+          <div class="finish-minimal-actions">
+            <button type="button" class="btn-fullscreen-control" id="btnReplaySlideshow" title="Putar Ulang Slideshow">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path>
+                <polyline points="3 3 3 8 8 8"></polyline>
+              </svg>
+              <span>Putar Ulang</span>
+            </button>
+            <button type="button" class="btn-fullscreen-control" data-goto="1" title="Kembali ke Bab 1">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Kembali ke Bab 1</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </article>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toastMsg"></div>
+
+  <!-- Scripts -->
+  <script src="guests.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
