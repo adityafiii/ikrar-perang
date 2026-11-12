@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
         this.speedX = (Math.random() - 0.5) * 0.5;
         this.opacity = Math.random() * 0.7 + 0.2;
         this.fade = Math.random() * 0.005 + 0.002;
-        // Warm Gold to Ember Orange colors
         const colors = [
           '229, 169, 59', // gold
           '255, 87, 34',  // ember orange
@@ -109,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 2. GUEST SELECTION SYSTEM (guests.js + URL param)
+  // 2. GUEST SELECTION SYSTEM
   // ==========================================================================
   const guestList =
     typeof GUEST_LIST !== 'undefined' && Array.isArray(GUEST_LIST)
@@ -184,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // 3. CINEMATIC WEB AUDIO SOUND EFFECTS (TAIKO BOOM & DRAMATIC HITS)
+  // 3. CINEMATIC WEB AUDIO SOUND EFFECTS
   // ==========================================================================
   function getAudioContext() {
     if (!audioCtx) {
@@ -196,7 +195,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return audioCtx;
   }
 
-  // Deep Sub-bass Cinematic Boom on Gateway Open
   function playCinematicBoom() {
     try {
       const ctx = getAudioContext();
@@ -220,7 +218,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Button Click Percussion Sound
   function playPercussiveClick() {
     try {
       const ctx = getAudioContext();
@@ -243,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 4. OPEN INVITATION FLOW (THE GATEWAY SAKSI SUMPAH)
+  // 4. OPEN INVITATION FLOW
   // ==========================================================================
   btnOpenInvitation.addEventListener('click', () => {
     const finalGuestName =
@@ -261,37 +258,30 @@ document.addEventListener('DOMContentLoaded', () => {
         finalGuestName !== 'Tamu Terhormat / Kerabat' ? finalGuestName : '';
     }
 
-    // Play Dramatic Taiko Boom Effect
     playCinematicBoom();
-
-    // Hide Cover with Dramatic Fade
     coverOverlay.classList.add('hidden');
     document.body.classList.remove('locked');
-
-    // Start "Departure to the Front Line" BGM
     startMusic();
-
-    // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
     goToPage(1);
   });
 
   // ==========================================================================
-  // 5. AUDIO CONTROLLER (DUAL TRACK: STORY BGM & CLIMAX BGM)
+  // 5. AUDIO CONTROLLER & FADE IN / OUT
   // ==========================================================================
-  const SUSPENSE_START = 60.0;   // 1:00 Ancang-ancang start on Climax track
-  const CLIMAX_BEAT_DROP = 69.0; // 1:09 Beat drop & slideshow trigger
-  const TRACK_END = 130.5;       // ~2:11 Slideshow song conclusion
+  const SUSPENSE_START = 60.0;
+  const CLIMAX_BEAT_DROP = 69.0;
+  const TRACK_END = 130.5;
 
   function getActiveAudio() {
     return currentPage === 8 ? bgMusicClimax : bgMusicStory;
   }
 
-  function fadeAudioOut(audioEl, duration = 400) {
+  function fadeAudioOut(audioEl, duration = 2000) {
     return new Promise((resolve) => {
       if (!audioEl || audioEl.paused) return resolve();
       const initialVol = audioEl.volume;
-      const steps = 10;
+      const steps = 20;
       const stepTime = duration / steps;
       let currentStep = 0;
       const interval = setInterval(() => {
@@ -307,13 +297,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  function fadeAudioIn(audioEl, targetVol = 1.0, duration = 450) {
+  function fadeAudioIn(audioEl, targetVol = 1.0, duration = 2000) {
     if (!audioEl) return;
     audioEl.volume = 0;
     const playPromise = audioEl.play();
     if (playPromise !== undefined) {
       playPromise.then(() => {
-        const steps = 10;
+        const steps = 20;
         const stepTime = duration / steps;
         let currentStep = 0;
         const interval = setInterval(() => {
@@ -332,14 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateMusicUI(true);
     if (bgMusicStory) {
       bgMusicStory.currentTime = 0;
-      bgMusicStory.volume = 1.0;
-      const playPromise = bgMusicStory.play();
-      if (playPromise !== undefined) {
-        playPromise.catch((err) => {
-          console.log('Autoplay prevented. Using dramatic fallback synth:', err);
-          startDramaticShutsujinSynth();
-        });
-      }
+      fadeAudioIn(bgMusicStory, 1.0, 1000);
     } else {
       startDramaticShutsujinSynth();
     }
@@ -357,19 +340,10 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Musik dijeda');
     } else {
       if (activeAudio) {
-        activeAudio
-          .play()
-          .then(() => {
-            isMusicPlaying = true;
-            updateMusicUI(true);
-            showToast('Musik diputar');
-          })
-          .catch(() => {
-            startDramaticShutsujinSynth();
-            isMusicPlaying = true;
-            updateMusicUI(true);
-            showToast('Musik diputar');
-          });
+        fadeAudioIn(activeAudio, 1.0, 1200);
+        isMusicPlaying = true;
+        updateMusicUI(true);
+        showToast('Musik diputar');
       } else {
         startDramaticShutsujinSynth();
         isMusicPlaying = true;
@@ -396,20 +370,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   musicToggleBtn.addEventListener('click', toggleMusic);
 
-  // Dramatic Web Audio Synthesizer (Fallback mimicking the heroic tension of Shutsujin)
   function startDramaticShutsujinSynth() {
     try {
       const ctx = getAudioContext();
-      // Minor cinematic battle progression (D minor heroic tension: D, F, G, A)
-      const bassNotes = [73.42, 87.31, 98.00, 110.00]; // D2, F2, G2, A2
-      const melodyNotes = [293.66, 349.23, 392.00, 440.00, 523.25]; // D4, F4, G4, A4, C5
+      const bassNotes = [73.42, 87.31, 98.00, 110.00];
       let step = 0;
 
       function triggerTensePulse() {
         if (!audioCtx || audioCtx.state !== 'running') return;
         const now = ctx.currentTime;
 
-        // Taiko-like low drum hit
         const drumOsc = ctx.createOscillator();
         const drumGain = ctx.createGain();
         drumOsc.type = 'sine';
@@ -422,7 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
         drumOsc.start(now);
         drumOsc.stop(now + 0.45);
 
-        // Dramatic saw/brass pulse
         const brassOsc = ctx.createOscillator();
         const brassGain = ctx.createGain();
         brassOsc.type = 'sawtooth';
@@ -433,7 +402,6 @@ document.addEventListener('DOMContentLoaded', () => {
         brassGain.gain.exponentialRampToValueAtTime(0.06, now + 0.1);
         brassGain.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
 
-        // Lowpass filter for deep cinematic warmth
         const filter = ctx.createBiquadFilter();
         filter.type = 'lowpass';
         filter.frequency.setValueAtTime(450, now);
@@ -462,7 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 6. MULTI-CHAPTER STORYTELLING CONTROLLER (8 CHAPTERS)
+  // 6. MULTI-CHAPTER CONTROLLER & SLIDESHOW LOGIC
   // ==========================================================================
   let currentPage = 1;
   const totalPages = 8;
@@ -470,38 +438,63 @@ document.addEventListener('DOMContentLoaded', () => {
   const pages = document.querySelectorAll('.wedding-page');
   const dots = document.querySelectorAll('.page-dots-indicator .dot');
 
-  // Slideshow & Suspense Elements (Chapter 8)
+  // Slideshow & Countdown Elements
   const suspenseScreen = document.getElementById('suspenseScreen');
+  const suspenseCountdown = document.getElementById('suspenseCountdown');
+  const countdownRingFill = document.getElementById('countdownRingFill');
   const slideshowStage = document.getElementById('slideshowStage');
-  const slideTrackerBar = document.getElementById('slideTrackerBar'); // hairline-fill element
+  const slideTrackerBar = document.getElementById('slideTrackerBar');
   const slideItems = document.querySelectorAll('.slides-viewport .slide-item');
   const slideshowFinishOverlay = document.getElementById('slideshowFinishOverlay');
   const btnReplaySlideshow = document.getElementById('btnReplaySlideshow');
 
   const TOTAL_SLIDES = slideItems.length || 12;
-  const CLIMAX_DURATION = TRACK_END - CLIMAX_BEAT_DROP; // ~61.5s
-  const DURATION_PER_SLIDE = CLIMAX_DURATION / TOTAL_SLIDES; // ~5.125s per slide
+  const CLIMAX_DURATION = TRACK_END - CLIMAX_BEAT_DROP;
+  const DURATION_PER_SLIDE = CLIMAX_DURATION / TOTAL_SLIDES;
+  const TOTAL_RING_CIRCUMFERENCE = 326.7;
 
-  // Audio Sync & Time Update Handler for Chapter 8 Climax & Slideshow
+  function updateCountdownUI(elapsed) {
+    const remaining = Math.max(1, Math.ceil(9 - elapsed));
+    if (suspenseCountdown) {
+      if (suspenseCountdown.textContent !== String(remaining)) {
+        suspenseCountdown.classList.add('tick');
+        setTimeout(() => suspenseCountdown.classList.remove('tick'), 150);
+      }
+      suspenseCountdown.textContent = remaining;
+    }
+    if (countdownRingFill) {
+      const progress = Math.min(1, Math.max(0, elapsed / 9));
+      const offset = TOTAL_RING_CIRCUMFERENCE * progress;
+      countdownRingFill.style.strokeDashoffset = offset;
+    }
+  }
+
+  function resetCountdownUI() {
+    if (suspenseCountdown) suspenseCountdown.textContent = '9';
+    if (countdownRingFill) countdownRingFill.style.strokeDashoffset = '0';
+  }
+
   function onClimaxTimeUpdate() {
     if (!bgMusicClimax || currentPage !== 8) return;
     const curTime = bgMusicClimax.currentTime;
 
-    // Guard: If before 1:00 (60s), jump to 1:00
     if (curTime < SUSPENSE_START - 0.5) {
       bgMusicClimax.currentTime = SUSPENSE_START;
       return;
     }
 
-    // Phase 1: 1:00 to 1:09 — Pure black void (Ancang-ancang)
+    // Phase 1: Countdown 9 ke 1 (60.0s s/d 69.0s)
     if (curTime < CLIMAX_BEAT_DROP) {
       if (suspenseScreen) suspenseScreen.style.display = 'flex';
       if (slideshowStage) slideshowStage.style.display = 'none';
       if (slideshowFinishOverlay) slideshowFinishOverlay.style.display = 'none';
+
+      const elapsed = Math.max(0, curTime - SUSPENSE_START);
+      updateCountdownUI(elapsed);
       return;
     }
 
-    // Phase 2: 1:09 until end — Climax Beat Drop & Fullscreen Photo Slideshow
+    // Phase 2: Beat Drop & Slideshow Foto
     if (curTime >= CLIMAX_BEAT_DROP && curTime < TRACK_END) {
       if (suspenseScreen) suspenseScreen.style.display = 'none';
       if (slideshowStage) slideshowStage.style.display = 'block';
@@ -527,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // Phase 3: Track ended (~130.5s+)
+    // Phase 3: Selesai
     if (curTime >= TRACK_END) {
       if (slideshowFinishOverlay) slideshowFinishOverlay.style.display = 'flex';
       if (slideTrackerBar) slideTrackerBar.style.width = '100%';
@@ -543,19 +536,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Replay Slideshow Button
   if (btnReplaySlideshow) {
     btnReplaySlideshow.addEventListener('click', () => {
       playPercussiveClick();
+      resetCountdownUI();
+      slideItems.forEach((item) => {
+        item.classList.remove('active');
+      });
       if (slideshowFinishOverlay) slideshowFinishOverlay.style.display = 'none';
       if (slideshowStage) slideshowStage.style.display = 'none';
       if (suspenseScreen) suspenseScreen.style.display = 'flex';
       if (bgMusicClimax) {
         bgMusicClimax.currentTime = SUSPENSE_START;
-        bgMusicClimax.play().then(() => {
-          isMusicPlaying = true;
-          updateMusicUI(true);
-        }).catch(() => {});
+        if (isMusicPlaying) {
+          fadeAudioIn(bgMusicClimax, 1.0, 2000);
+        }
       }
     });
   }
@@ -583,14 +578,12 @@ document.addEventListener('DOMContentLoaded', () => {
       pageCounterBadge.textContent = `BAB ${currentPage} / ${totalPages}`;
     }
 
-    // Toggle body class for fullscreen slideshow mode (hides nav/music btn)
     if (currentPage === 8) {
       document.body.classList.add('page-8-active');
     } else {
       document.body.classList.remove('page-8-active');
     }
 
-    // For non-slideshow pages: scroll to nav top
     if (currentPage < 8) {
       const nav = document.getElementById('pageTopNav');
       if (nav) {
@@ -611,41 +604,42 @@ document.addEventListener('DOMContentLoaded', () => {
     const isEnteringClimax = pageNumber === 8;
     const isExitingClimax = prevPage === 8 && pageNumber < 8;
 
-    // Use cinematic fade curtain when transitioning to or from the final slideshow page
     if (forceFade || isEnteringClimax || isExitingClimax) {
       isPageTransitioning = true;
       if (cinematicFadeVeil) {
         cinematicFadeVeil.classList.add('active');
       }
 
-      // Smooth audio fade out of current playing track
       if (isEnteringClimax) {
-        fadeAudioOut(bgMusicStory, 400);
+        fadeAudioOut(bgMusicStory, 2000);
       } else if (isExitingClimax) {
-        fadeAudioOut(bgMusicClimax, 400);
+        fadeAudioOut(bgMusicClimax, 2000);
       }
+
+      const FADE_DURATION = 2000;
 
       setTimeout(() => {
         executePageSwitch(pageNumber);
 
         if (isEnteringClimax) {
-          // Initialize Chapter 8 state: pure black void, suspense screen
           if (suspenseScreen) suspenseScreen.style.display = 'flex';
           if (slideshowStage) slideshowStage.style.display = 'none';
           if (slideshowFinishOverlay) slideshowFinishOverlay.style.display = 'none';
           if (slideTrackerBar) slideTrackerBar.style.width = '0%';
+          slideItems.forEach((item) => {
+            item.classList.remove('active');
+          });
+          resetCountdownUI();
 
           if (bgMusicClimax) {
             bgMusicClimax.currentTime = SUSPENSE_START;
-            bgMusicClimax.volume = 1.0;
             if (isMusicPlaying) {
-              bgMusicClimax.play().catch(() => {});
+              fadeAudioIn(bgMusicClimax, 1.0, 2000);
             }
           }
         } else if (isExitingClimax) {
-          // Resume story BGM for Chapters 1-7
           if (bgMusicStory && isMusicPlaying) {
-            fadeAudioIn(bgMusicStory, 1.0, 500);
+            fadeAudioIn(bgMusicStory, 1.0, 1000);
           }
         }
 
@@ -654,11 +648,10 @@ document.addEventListener('DOMContentLoaded', () => {
             cinematicFadeVeil.classList.remove('active');
           }
           isPageTransitioning = false;
-        }, 150);
-      }, 450);
+        }, 500);
+      }, FADE_DURATION);
     } else {
       executePageSwitch(pageNumber);
-      // Ensure story BGM is playing if on Chapters 1-7
       if (bgMusicStory && isMusicPlaying && bgMusicStory.paused) {
         bgMusicStory.play().catch(() => {});
       }
@@ -691,7 +684,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Keyboard navigation (Arrow keys on PC/Laptop)
   document.addEventListener('keydown', (e) => {
     if (coverOverlay.classList.contains('hidden')) {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -710,7 +702,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Touch Swipe Navigation on Mobile
   let touchStartX = 0;
   let touchStartY = 0;
   const mainContainer = document.getElementById('mainContainer');
@@ -750,7 +741,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================================================
-  // 7. PRASASTI DOA RESTU (STORAGE & WISHES BOARD)
+  // 7. PRASASTI DOA RESTU
   // ==========================================================================
   const STORAGE_KEY = 'wedding_wishes_dramatic_aditya_salsa';
   const defaultWishes = [
@@ -836,7 +827,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Toast Utility
   function showToast(text) {
     if (!toastMsg) return;
     toastMsg.textContent = text;
@@ -847,7 +837,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function escapeHTML(str) {
-    return str.replace(/[&<>'"]/g, (tag) => ({
+    return str.replace(/[&<>"']/g, (tag) => ({
       '&': '&amp;',
       '<': '&lt;',
       '>': '&gt;',
@@ -856,6 +846,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }[tag] || tag));
   }
 
-  // Initial render
   renderWishes();
 });
